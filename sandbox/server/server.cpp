@@ -22,10 +22,13 @@ int main()
         Connection conn;
         if ((conn = sock.ack()) > 0) 
         {
+            auto r_data = sock.recv(conn, 2 * 2048);
+            std::string data_to_str(r_data.begin(), r_data.end());
+            log(data_to_str)
             //Sending data step
             sock.write(conn, data);
             close(conn);
         }
     }
-	return 0;
+    return 0;
 }
