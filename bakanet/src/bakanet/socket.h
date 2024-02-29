@@ -4,15 +4,23 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <netdb.h>
+#include <arpa/inet.h>
 
+#include <cstring>
 #include <vector>
+#include <string>
 
 #include "ip_address.h"
 #include "ip_protocol.h"
 
+#define log(str) std::cout << str << "\n";
+
 namespace Bk::Net {
 
 	using Connection = int;
+
+	std::vector<std::string> dns_lookup(const std::string &host_name, IpVersion ipv);
 
 	class Socket 
 	{
@@ -27,6 +35,7 @@ namespace Bk::Net {
 		void write(std::vector<char> packet);
 		void write(Connection socket, std::vector<char> packet);
 		std::vector<char> recv(int size);
+		std::vector<char> recv(Connection socket, int size);
 
 
 	private:
