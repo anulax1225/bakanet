@@ -14,13 +14,9 @@
 #include "ip_address.h"
 #include "ip_protocol.h"
 
-#define log(str) std::cout << str << "\n";
-
 namespace Bk::Net {
 
 	using Connection = int;
-
-	std::vector<std::string> dns_lookup(const std::string &host_name, IpVersion ipv);
 
 	class Socket 
 	{
