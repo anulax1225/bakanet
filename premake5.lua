@@ -1,6 +1,7 @@
 workspace "socket_unix"
    	architecture "x64"
     configurations { "Debug", "Release" }
+    startproject "server"
     flags
 	{
 		"MultiProcessorCompile"
@@ -51,7 +52,8 @@ project "server"
     files 
     {
         "%{prj.location}/**.h",
-        "%{prj.location}/**.cpp"
+        "%{prj.location}/**.cpp",
+        "./sandbox/commun.h"
     }
 
     links
@@ -79,7 +81,8 @@ project "client"
     files 
     {
         "%{prj.location}/**.h",
-        "%{prj.location}/**.cpp"
+        "%{prj.location}/**.cpp",
+        "./sandbox/commun.h"
     }
     
     links
