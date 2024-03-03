@@ -28,8 +28,8 @@ namespace Bk::Net {
 		bool start(int cpt_conn);
 		Connection ack();
 		bool conn();
-		void write(std::vector<char> packet);
-		void write(Connection socket, std::vector<char> packet);
+		void send(std::vector<char> packet);
+		void send(Connection socket, std::vector<char> packet);
 		std::vector<char> recv(int size);
 		std::vector<char> recv(Connection socket, int size);
 

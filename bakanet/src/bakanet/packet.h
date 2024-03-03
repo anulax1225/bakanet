@@ -26,7 +26,7 @@ namespace Bk::Net {
 		template <typename T>
 		void push(const T* data, int size)
 		{
-			for(int i = 0; i <= size; i++) push<T>(data[i]);	
+			for(int i = 0; i < size; i++) push<T>(data[i]);	
 		}
 
 		template <typename T>
@@ -44,8 +44,17 @@ namespace Bk::Net {
 		std::unique_ptr<T[]> pull(int size)
 		{
 			std::unique_ptr<T[]> data(new T[size]);
-			for(int i = size; i >= 0; i--) data[i] = pull<T>();
+			for(int i = size - 1; i >= 0; i--) data[i] = pull<T>();
 			return data;
+		}
+
+		bool append_data(std::vector<char> data)
+		{
+			if (!data.size()) return false;
+			size_t i = payload.size();
+			payload.resize(i + data.size());
+			std::memcpy(payload.data() + i, data.data(), sizeof(char) * data.size());
+			return true;
 		}
 	
 		std::vector<char> payload;

@@ -24,8 +24,10 @@ namespace Bk::Net {
 	bool Socket::init()
 	{
 	    //Binding step
-	    if (bind(socket_id, (struct sockaddr*)&addr, sizeof(addr)) < 0) 
+		int status;
+	    if ((status = bind(socket_id, (struct sockaddr*)&addr, sizeof(addr)) < 0)) 
 	    {
+			perror("bind failed");
 	      	return false;
 	    }
 	    return true;
@@ -57,14 +59,14 @@ namespace Bk::Net {
     	return true;
 	}
 
-	void Socket::write(std::vector<char> packet)
+	void Socket::send(std::vector<char> packet)
 	{
-		send(socket_id, packet.data(), packet.size(), 0);
+		write(socket_id, packet.data(), packet.size());
 	}
 
-	void Socket::write(Connection conn, std::vector<char> packet)
+	void Socket::send(Connection conn, std::vector<char> packet)
 	{
-		send(conn, packet.data(), packet.size(), 0);
+		write(conn, packet.data(), packet.size());
 	}
 
 	std::vector<char> Socket::recv(int size)
@@ -72,7 +74,7 @@ namespace Bk::Net {
 		std::vector<char> buffer;
 		buffer.resize(size);
 		int status = read(socket_id, buffer.data(), buffer.size() - 1);
-		return status ? buffer : std::vector<char>(0);
+		return status > 0 ? buffer : std::vector<char>();
 	}
 
 	std::vector<char> Socket::recv(Connection conn, int size)
@@ -80,6 +82,6 @@ namespace Bk::Net {
 		std::vector<char> buffer;
 		buffer.resize(size);
 		int status = read(conn, buffer.data(), buffer.size() - 1);
-		return status ? buffer : std::vector<char>(0);
+		return status > 0 ? buffer : std::vector<char>();
 	}
 }
