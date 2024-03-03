@@ -2,28 +2,47 @@
 
 using namespace Bk::Net;
 
+void http_server();
+std::string http_handle(Socket& sock, Connection conn);
+
 int main() 
 {
-    IpAddress ip("127.0.0.1");
-    Socket sock(ip, 9000, IpProtocol::TCP);
-    
-    bool running = sock.init() && sock.start(50);
+    http_server();
+    return 0;
+}
 
-    while (running) 
-    {   
-        Connection conn;
-        if ((conn = sock.ack()) > 0) 
+void http_server() 
+{
+    IpAddress ip("127.0.0.1");
+    Socket sock(ip, 80, IpProtocol::TCP);
+    bool running = sock.init() && sock.start(5);
+    while (running)
+    {
+        Connection conn = sock.ack();
+        if (conn >= 0) 
         {
-            log("New Connection")
-            Packet meta_data(sock.recv(conn, 4));
-            int length = meta_data.pull<int>();
-            if (length > 0)
-            {
-                Packet data(sock.recv(conn, length + 2));
-                log(data.pull<char>(length).release());
-            }
-            close(conn);
+            log(http_handle(sock, conn));
         }
     }
-    return 0;
+}
+
+std::string http_handle(Socket& sock, Connection conn) 
+{
+    Packet req;
+
+    bool reading = true;
+    while(reading)
+    {
+        std::vector<char> raw_data;
+        raw_data = sock.recv(conn, 4);
+        reading = req.append_data(raw_data);
+    }
+
+    close(conn);
+
+    int req_size = req.size();
+    std::unique_ptr<char[]> req_test = req.pull<char>(req_size);
+
+    if (req_size) return std::string(req_test.release(), req_size);
+    return "";
 }
