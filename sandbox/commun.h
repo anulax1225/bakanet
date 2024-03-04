@@ -6,3 +6,5 @@
 #include <bakanet.h>
 
 #define log(str) std::cout << str << "\n";
+
+#define PORT 10001
