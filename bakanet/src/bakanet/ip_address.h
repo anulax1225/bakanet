@@ -12,12 +12,12 @@ namespace Bk::Net {
 	class IpAddress 
 	{
 	public:
-		IpAddress(const char* ip);
+		IpAddress(const char* ip, IpVersion ipv = IpVersion::IPv4);
 
 		static void from_dns(char* dns);
 		
 		const char* str;
 		in_addr bytes;
-		IpVersion version = IpVersion::IPv4;
+		IpVersion version;
 	};
 }
