@@ -46,7 +46,8 @@ project "server"
 
     includedirs 
     {
-        "%{IncludeDirs.bakanet}"
+        "%{IncludeDirs.bakanet}",
+        "./sandbox/"
     }
 
     files 
