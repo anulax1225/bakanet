@@ -24,8 +24,8 @@ void http_client()
     }
 
     Packet packet;
-    std::string str = "GET / HTTP/1.1\r\n"
-                      "Host: 127.0.0.1:10001\r\n\r\n"
+    std::string str = "GET / HTTP/1.1 \r\n"
+                      "Host: 127.0.0.1:10001 \r\n\r\n"
                       "Body jylkdkjlkjlkjlkjlkj"; 
     
     packet.push<char>(str.c_str(), str.length());
