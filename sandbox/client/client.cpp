@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "../commun.h"
 
 using namespace Bk::Net;
@@ -12,8 +14,6 @@ int main()
 
 void http_client()
 {
-    log(dns_lookup("edus2.rpn.ch", IpVersion::IPv4)[0])
-
     IpAddress ip("127.0.0.1");
     Socket sock(ip, PORT, IpProtocol::TCP);
 

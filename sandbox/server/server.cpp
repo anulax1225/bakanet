@@ -16,6 +16,7 @@ std::string http_handler(Socket& sock, Connection conn);
 void http_parser(std::string req);
 HttpMethod resolve_methode(std::string method);
 std::unique_ptr<std::vector<std::string>> string_split(std::string s, std::string delimiter);
+std::string string_trim(const std::string& str, const std::string& whitespace = " ");
 
 int main() 
 {
@@ -28,6 +29,9 @@ void http_server()
     IpAddress ip("127.0.0.1");
     Socket sock(ip, PORT, IpProtocol::TCP);
     bool running = sock.init() && sock.start(5);
+
+    auto trimed_str = string_trim(std::string(" Hello "));
+    log(trimed_str)
     while (running)
     {
         Connection conn = sock.ack();
@@ -93,7 +97,7 @@ std::unique_ptr<std::vector<std::string>> string_split(std::string s, std::strin
     return splits;
 }
 
-std::string string_trim(const std::string& str, const std::string& whitespace = " \t")
+std::string string_trim(const std::string& str, const std::string& whitespace)
 {
     const auto strBegin = str.find_first_not_of(whitespace);
     if (strBegin == std::string::npos)
