@@ -1,5 +1,14 @@
 #include "http_tools.h"
 
+std::string string_to_lower(std::string& str)
+{
+    for (int i = 0; i < str.length(); i++)
+    {
+        str[i] = std::tolower(str[i]);
+    }
+    return str;
+}
+
 std::string string_to_upper(std::string& str)
 {
     for (int i = 0; i < str.length(); i++)
