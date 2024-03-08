@@ -1,6 +1,7 @@
 .vs
 **Makefile
 **vcxproj
+**.vcxproj.filters
 *sln
 bin
 bin-int
