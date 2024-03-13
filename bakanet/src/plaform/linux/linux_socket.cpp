@@ -1,4 +1,4 @@
-#include "socket.h"
+#include "linux_socket.h"
 #include <iostream>
 
 namespace Bk::Net {
@@ -11,7 +11,7 @@ namespace Bk::Net {
 	        perror("socket failed");
 	        exit(EXIT_FAILURE);
 	    }
-	    addr.sin_addr = (struct in_addr)ip_addr.get_data();
+	    addr.sin_addr = *(struct in_addr*)*ip_addr.get_data();
 		addr.sin_family = (int)ip_addr.version;
     	addr.sin_port = htons(port);
 	}
@@ -88,6 +88,6 @@ namespace Bk::Net {
 
 	std::unique_ptr<Socket> Socket::Create(IpAddress ip, int port, IpProtocol proto)
 	{
-		return std::unique_ptr(new LinuxSocket(ip, port, proto));
+		return std::unique_ptr<Socket>(new LinuxSocket(ip, port, proto));
 	}
 }

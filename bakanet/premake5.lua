@@ -1,5 +1,4 @@
 project "bakanet"
-    location "./bakanet"
 	kind "StaticLib"
     language "C++"
     cppdialect "C++17"
