@@ -1,3 +1,9 @@
 clear 
+rm -rf ./bin/linux-x86_64-Debug/server
 premake5 gmake2
 make
+
+if [ "$1" == "-exec" ]; then
+    echo STARTING PROGRAM
+    ./bin/linux-x86_64-Debug/server/server
+fi

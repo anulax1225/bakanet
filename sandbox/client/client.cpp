@@ -1,5 +1,4 @@
 #include <sstream>
-
 #include "../commun.h"
 
 using namespace Bk::Net;

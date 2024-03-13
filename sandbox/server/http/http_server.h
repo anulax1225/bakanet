@@ -1,6 +1,7 @@
-#include <commun.h>
+#pragma once
 
-#include "http_parser.h"
+#include <commun.h>
+#include "http_packet.h"
 
 using namespace Bk::Net;
 void http_server();
