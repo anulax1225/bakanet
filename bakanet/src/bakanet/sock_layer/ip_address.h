@@ -10,7 +10,7 @@ namespace Bk::Net {
 		IpAddress(std::string ip, IpVersion ipv = IpVersion::IPv4)
 		: str(ip), version(ipv) { }
 		
-		std::unique_ptr<void*> get_data();
+		struct in_addr get_data();
 		std::string str;
 		IpVersion version;
 	};

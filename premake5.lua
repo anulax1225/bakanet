@@ -15,3 +15,7 @@ IncludeDirs["bakanet"] = "%{wks.location}/bakanet/src/"
 group "NetCore"
 	include "bakanet"
 group ""
+
+group "Sandbox"
+	include "sandbox"
+group ""

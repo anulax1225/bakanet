@@ -11,7 +11,7 @@ namespace Bk::Net {
 	        perror("socket failed");
 	        exit(EXIT_FAILURE);
 	    }
-	    addr.sin_addr = *(struct in_addr*)*ip_addr.get_data();
+	    addr.sin_addr = ip_addr.get_data();
 		addr.sin_family = (int)ip_addr.version;
     	addr.sin_port = htons(port);
 	}

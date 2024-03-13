@@ -11,7 +11,7 @@ namespace Bk::Net {
 	class Socket 
 	{
 	public:
-		virtual ~Socket() { }
+		virtual ~Socket() {}
 
 		virtual bool init() = 0;
 		virtual bool start(int cpt_conn) = 0;

@@ -1,6 +1,6 @@
 #pragma once 
 
-#include <bakanet/ip_address.h>
-#include <bakanet/packet.h>
-#include <bakanet/socket.h>
-#include <bakanet/dns_lookup.h>
+#include <bakanet/sock_layer/ip_address.h>
+#include <bakanet/sock_layer/packet.h>
+#include <bakanet/sock_layer/socket.h>
+#include <bakanet/sock_layer/dns_lookup.h>
