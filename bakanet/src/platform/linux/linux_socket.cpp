@@ -73,8 +73,9 @@ namespace Bk::Net {
 	{
 		std::vector<char> buffer;
 		buffer.resize(size);
-		int status = read(socket_id, buffer.data(), buffer.size() - 1);
-		return status > 0 ? buffer : std::vector<char>();
+		int read_size = read(socket_id, buffer.data(), buffer.size() - 1);
+		buffer.resize(read_size);
+		return buffer;
 	}
 
 	std::vector<char> LinuxSocket::obtain(Connection conn, int size)
@@ -85,8 +86,8 @@ namespace Bk::Net {
 		buffer.resize(read_size);
 		return buffer;
 	}
-
-	std::unique_ptr<Socket> Socket::Create(IpAddress ip, int port, IpProtocol proto)
+	
+	std::unique_ptr<Socket> Socket::create(IpAddress ip, int port, IpProtocol proto)
 	{
 		return std::unique_ptr<Socket>(new LinuxSocket(ip, port, proto));
 	}

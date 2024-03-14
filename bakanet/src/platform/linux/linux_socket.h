@@ -13,6 +13,9 @@ namespace Bk::Net {
             bool start(int cpt_conn) override;
             Connection ack() override;
             bool conn() override;
+
+            int get_raw_socket() override { return socket_id; }
+
             void emit(std::vector<char> packet) override;
             void emit(Connection socket, std::vector<char> packet) override;
             std::vector<char> obtain(int size) override;
