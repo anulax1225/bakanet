@@ -11,7 +11,6 @@ project "server"
     includedirs 
     {
         "%{IncludeDirs.bakanet}",
-        "./"
     }
 
     files 
