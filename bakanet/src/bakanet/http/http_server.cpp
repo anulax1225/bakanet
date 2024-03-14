@@ -16,7 +16,7 @@ namespace Bk::Net {
             {
                 log("AFTER")
                 route_request(conn, recv_request(conn));
-                close(conn);
+                closesocket(conn);
             }
 
         } 
@@ -49,6 +49,7 @@ namespace Bk::Net {
 
     void HttpServer::route_request(Connection conn, HttpRequest req)
     {
+        log("to string")
         log(req.to_string())
         if(req_mapper[req.url]) send_reponse(conn, req_mapper[req.url](req));
         else send_reponse(conn, HttpReponse(HTTP_RES_404, "HTTP/1.1"));

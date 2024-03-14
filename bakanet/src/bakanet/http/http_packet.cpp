@@ -12,14 +12,14 @@ namespace Bk::Net {
         auto lines = Tools::string_split(data, "\n");
         auto first_line = std::string(lines->at(0));
         auto req_data = Tools::string_split(first_line, " ");
-        method = req_data->at(0);
-        url = req_data->at(1);
-        version = req_data->at(2);
+
+        if(req_data->size() > 0) method = req_data->at(0);
+        if(req_data->size() > 1) url = req_data->at(1);
+        if(req_data->size() > 2) version = req_data->at(2);
+
         body = std::string(lines->at(lines->size() - 1));
-
         lines->erase(lines->begin());
-        lines->erase(lines->end());
-
+        //lines->erase(lines->end());
         for (auto line : *lines)
         {
             auto param = Tools::string_split(line, ":", 1);
