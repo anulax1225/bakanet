@@ -62,6 +62,7 @@ namespace Bk::Net {
 
     HttpReponse::HttpReponse(std::string data)
     {
+        //To do
         status = "";
         version = "";
         params = HttpParams(0);

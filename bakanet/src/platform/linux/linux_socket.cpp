@@ -63,25 +63,11 @@ namespace Bk::Net {
 		write(socket_id, packet.data(), packet.size());
 	}
 
-	void LinuxSocket::emit(Connection conn, std::vector<char> packet)
-	{
-		write(conn, packet.data(), packet.size());
-	}
-
 	std::vector<char> LinuxSocket::obtain(int size)
 	{
 		std::vector<char> buffer;
 		buffer.resize(size);
 		int read_size = read(socket_id, buffer.data(), buffer.size() - 1);
-		buffer.resize(read_size);
-		return buffer;
-	}
-
-	std::vector<char> LinuxSocket::obtain(Connection conn, int size)
-	{
-		std::vector<char> buffer;
-		buffer.resize(size);
-		int read_size = read(conn, buffer.data(), buffer.size() - 1);
 		buffer.resize(read_size);
 		return buffer;
 	}

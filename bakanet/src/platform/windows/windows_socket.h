@@ -9,6 +9,7 @@ namespace Bk::Net {
         static int socket_count;
 
         WindowsSocket(IpAddress ip, int port, IpProtocol proto);
+        WindowsSocket(int id, IpVersion ver, IpProtocol proto);
         virtual ~WindowsSocket();
 
         bool init() override;
@@ -16,17 +17,16 @@ namespace Bk::Net {
         Connection ack() override;
         bool conn() override;
 
-        int get_raw_socket() override { return socket_id; }
+        int get_raw_socket() override { return id; }
 
         void emit(std::vector<char> packet) override;
-        void emit(Connection socket, std::vector<char> packet) override;
         std::vector<char> obtain(int size) override;
-        std::vector<char> obtain(Connection conn, int size) override;
 
     private:
-        Connection socket_id;
-        struct sockaddr_in addr;
+        Connection id;
+        struct sockaddr addr;
         IpAddress ip_addr;
         IpProtocol ip_proto;
+        bool main;
     };
 }

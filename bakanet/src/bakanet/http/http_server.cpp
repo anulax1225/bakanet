@@ -10,11 +10,9 @@ namespace Bk::Net {
         bool running = socket->init() && socket->start(5);
         while (running)
         {
-            log("BEFORE")
             Connection conn = socket->ack();
             if(conn >= 0)
             {
-                log("AFTER")
                 route_request(conn, recv_request(conn));
                 closesocket(conn);
             }

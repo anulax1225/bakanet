@@ -17,9 +17,7 @@ namespace Bk::Net {
             int get_raw_socket() override { return socket_id; }
 
             void emit(std::vector<char> packet) override;
-            void emit(Connection socket, std::vector<char> packet) override;
             std::vector<char> obtain(int size) override;
-            std::vector<char> obtain(Connection conn, int size) override;
 
         private:
             Connection socket_id;
