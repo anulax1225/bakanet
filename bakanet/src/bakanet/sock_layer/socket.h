@@ -24,8 +24,6 @@ namespace Bk::Net {
 		virtual void emit(Connection socket, std::vector<char> packet) = 0;
 		virtual std::vector<char> obtain(int size) = 0;
 		virtual std::vector<char> obtain(Connection conn, int size) = 0;
-		virtual std::vector<char> nobtain() = 0;
-		virtual std::vector<char> nobtain(Connection conn) = 0;
 		
 		template<typename T>
 		static bool set_option(Socket& socket, int level, int option_name, const T* option_value)

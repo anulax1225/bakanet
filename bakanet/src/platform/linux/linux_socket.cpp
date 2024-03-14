@@ -1,5 +1,4 @@
 #include "linux_socket.h"
-#include <iostream>
 
 namespace Bk::Net {
 	LinuxSocket::LinuxSocket(IpAddress ip, int port, IpProtocol proto)
@@ -84,30 +83,6 @@ namespace Bk::Net {
 		buffer.resize(size);
 		int read_size = read(conn, buffer.data(), buffer.size() - 1);
 		buffer.resize(read_size);
-		return buffer;
-	}
-
-	std::vector<char> LinuxSocket::nobtain()
-	{
-		std::vector<char> buffer(0);
-		int len = 0;
-		ioctl(socket_id, FIONREAD, &len);
-		if (len > 0) {
-			buffer.resize(len);
-			len = read(socket_id, buffer.data(), buffer.size() - 1);
-		}
-		return buffer;
-	}
-
-	std::vector<char> LinuxSocket::nobtain(Connection conn)
-	{
-		std::vector<char> buffer(0);
-		int len = 0;
-		ioctl(socket_id, FIONREAD, &len);
-		if (len > 0) {
-			buffer.resize(len);
-			len = read(conn, buffer.data(), buffer.size() - 1);
-		}
 		return buffer;
 	}
 	
