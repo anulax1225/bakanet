@@ -87,11 +87,11 @@ namespace Bk::Net {
 		return buffer;
 	}
 
-	virtual std::vector<char> obtain()
+	std::vector<char> LinuxSocket::nobtain()
 	{
 		std::vector<char> buffer(0);
 		int len = 0;
-		ioctl(sock, FIONREAD, &len);
+		ioctl(socket_id, FIONREAD, &len);
 		if (len > 0) {
 			buffer.resize(len);
 			len = read(socket_id, buffer.data(), buffer.size() - 1);
@@ -99,11 +99,11 @@ namespace Bk::Net {
 		return buffer;
 	}
 
-	virtual std::vector<char> obtain(Connection socket)
+	std::vector<char> LinuxSocket::nobtain(Connection conn)
 	{
 		std::vector<char> buffer(0);
 		int len = 0;
-		ioctl(sock, FIONREAD, &len);
+		ioctl(socket_id, FIONREAD, &len);
 		if (len > 0) {
 			buffer.resize(len);
 			len = read(conn, buffer.data(), buffer.size() - 1);

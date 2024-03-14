@@ -19,9 +19,9 @@ namespace Bk::Net {
             void emit(std::vector<char> packet) override;
             void emit(Connection socket, std::vector<char> packet) override;
             std::vector<char> obtain(int size) override;
-            std::vector<char> obtain(Connection socket, int size) override;
-            std::vector<char> obtain() override;
-		    std::vector<char> obtain(Connection socket) override;
+            std::vector<char> obtain(Connection conn, int size) override;
+            std::vector<char> nobtain() override;
+		    std::vector<char> nobtain(Connection conn) override;
 
         private:
             Connection socket_id;
