@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <cstring>
 #include <vector>
 #include <string>
@@ -8,6 +9,11 @@
 #include <cstdint>
 #include <cctype>
 #include <string>
+#include <unordered_map>
+#include <functional>
+
+#define log(str) std::cout << str << "\n";
+#define input(ref) std::cin >> ref;
 
 #ifdef BK_PLAFORM_WINDOWS
     #include <Ws2tcpip.h>
@@ -21,6 +27,7 @@
     #include <unistd.h>
     #include <netdb.h>
     #include <arpa/inet.h>
+    #include <sys/time.h>
 #else
     #error "Plaform not supported"
 #endif
