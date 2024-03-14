@@ -28,8 +28,8 @@ project "bakanet"
 
         files
         {
-            "%{prj.location}/src/plaform/windows/**.h",
-            "%{prj.location}/src/plaform/windows/**.cpp",
+            "%{prj.location}/src/platform/windows/**.h",
+            "%{prj.location}/src/platform/windows/**.cpp",
         }
 
         links
@@ -45,6 +45,6 @@ project "bakanet"
 
         files
         {
-            "%{prj.location}/src/plaform/linux/**.h",
-            "%{prj.location}/src/plaform/linux/**.cpp",
+            "%{prj.location}/src/platform/linux/**.h",
+            "%{prj.location}/src/platform/linux/**.cpp",
         }
