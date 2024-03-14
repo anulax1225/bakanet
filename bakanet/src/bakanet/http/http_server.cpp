@@ -28,9 +28,11 @@ namespace Bk::Net {
         bool reading = true;
         while(reading)
         {
-            auto data = socket->obtain(conn);
+            auto data = socket->obtain(conn, 1024);
+            int size = data.size();
             log("SIZE " << data.size())
-            reading = req.append_data(data);
+            req.append_data(data);
+            reading = data.size() >= 1024;
         }
         int req_size = req.size();
         if (req_size) return HttpRequest(std::string(req.pull<char>(req_size).release(), req_size));
@@ -47,6 +49,8 @@ namespace Bk::Net {
 
     void HttpServer::route_request(Connection conn, HttpRequest req)
     {
+        log(req.to_string())
         if(req_mapper[req.url]) send_reponse(conn, req_mapper[req.url](req));
+        else send_reponse(conn, HttpReponse(HTTP_RES_404, "HTTP/1.1"));
     }
 }
