@@ -21,6 +21,7 @@
     #include <tchar.h>
     #pragma comment(lib,"WS2_32.lib")
 #elif BK_PLAFORM_LINUX
+    #include <sys/ioctl.h>
     #include <netinet/in.h>
     #include <stdlib.h>
     #include <sys/socket.h>

@@ -28,7 +28,7 @@ namespace Bk::Net {
         bool reading = true;
         while(reading)
         {
-            auto data = socket->obtain(conn, 4);
+            auto data = socket->obtain(conn);
             log("SIZE " << data.size())
             reading = req.append_data(data);
         }

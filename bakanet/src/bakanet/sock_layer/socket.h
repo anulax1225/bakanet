@@ -24,6 +24,8 @@ namespace Bk::Net {
 		virtual void emit(Connection socket, std::vector<char> packet) = 0;
 		virtual std::vector<char> obtain(int size) = 0;
 		virtual std::vector<char> obtain(Connection socket, int size) = 0;
+		virtual std::vector<char> obtain() = 0;
+		virtual std::vector<char> obtain(Connection socket) = 0;
 		
 		template<typename T>
 		static bool set_option(Socket& socket, int level, int option_name, const T* option_value)
@@ -32,6 +34,7 @@ namespace Bk::Net {
 			log(status)
 			return status == 0 ? true : false;
 		}
+
 		static std::unique_ptr<Socket> create(IpAddress ip, int port, IpProtocol proto);
 	};
 }

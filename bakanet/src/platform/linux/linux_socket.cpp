@@ -86,6 +86,30 @@ namespace Bk::Net {
 		buffer.resize(read_size);
 		return buffer;
 	}
+
+	virtual std::vector<char> obtain()
+	{
+		std::vector<char> buffer(0);
+		int len = 0;
+		ioctl(sock, FIONREAD, &len);
+		if (len > 0) {
+			buffer.resize(len);
+			len = read(socket_id, buffer.data(), buffer.size() - 1);
+		}
+		return buffer;
+	}
+
+	virtual std::vector<char> obtain(Connection socket)
+	{
+		std::vector<char> buffer(0);
+		int len = 0;
+		ioctl(sock, FIONREAD, &len);
+		if (len > 0) {
+			buffer.resize(len);
+			len = read(conn, buffer.data(), buffer.size() - 1);
+		}
+		return buffer;
+	}
 	
 	std::unique_ptr<Socket> Socket::create(IpAddress ip, int port, IpProtocol proto)
 	{
