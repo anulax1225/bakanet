@@ -10,23 +10,23 @@ namespace Bk::Net {
         bool running = socket->init() && socket->start(5);
         while (running)
         {
-            Connection conn = socket->ack();
-            if(conn >= 0)
-            {
-                route_request(conn, recv_request(conn));
-                closesocket(conn);
-            }
-
+            auto conn = socket->ack();
+            
+            threads.emplace_back(std::thread([&](Socket& conn)
+                {
+                    log("Caca")
+                    route_request(conn, recv_request(conn));
+                }, std::ref(*conn)));
         } 
     }
 
-    HttpRequest HttpServer::recv_request(Connection conn)
+    HttpRequest HttpServer::recv_request(Socket& conn)
     {
         Packet req;
         bool reading = true;
         while(reading)
         {
-            auto data = socket->obtain(conn, 1024);
+            auto data = conn.obtain(1024);
             int size = data.size();
             log("SIZE " << data.size())
             req.append_data(data);
@@ -37,15 +37,15 @@ namespace Bk::Net {
         return HttpRequest("", "", "");
     }
 
-    void HttpServer::send_reponse(Connection conn, HttpReponse res)
+    void HttpServer::send_reponse(Socket& conn, HttpReponse res)
     {
         Packet res_packet;
         std::string str_res = res.to_string();
         res_packet.push<char>(str_res.c_str(), str_res.length());
-        socket->emit(conn, res_packet.payload);
+        conn.emit(res_packet.payload);
     }
 
-    void HttpServer::route_request(Connection conn, HttpRequest req)
+    void HttpServer::route_request(Socket& conn, HttpRequest req)
     {
         log("to string")
         log(req.to_string())

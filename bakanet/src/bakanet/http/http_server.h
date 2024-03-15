@@ -9,6 +9,7 @@
 namespace Bk::Net {
     class HttpServer 
     {
+        using ThreadPool = std::vector<std::thread>;
         using RequestHandler = std::function<HttpReponse(HttpRequest& req)>;
         public:
             HttpServer(IpAddress ip, int port);
@@ -18,9 +19,10 @@ namespace Bk::Net {
         private:
             std::unique_ptr<Socket> socket;
             std::unordered_map<std::string, RequestHandler> req_mapper;
+            ThreadPool threads;
 
-            HttpRequest recv_request(Connection conn);
-            void send_reponse(Connection conn, HttpReponse res);
-            void route_request(Connection conn, HttpRequest req);
+            HttpRequest recv_request(Socket& conn);
+            void send_reponse(Socket& conn, HttpReponse res);
+            void route_request(Socket& conn, HttpRequest req);
     };
 }
