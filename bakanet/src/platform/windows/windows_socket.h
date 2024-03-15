@@ -14,17 +14,18 @@ namespace Bk::Net {
 
         bool init() override;
         bool start(int cpt_conn) override;
-        Connection ack() override;
+        std::unique_ptr<Socket> ack() override;
         bool conn() override;
 
         int get_raw_socket() override { return id; }
+        const std::string get_ip() override { return ip_addr.str; }
 
         void emit(std::vector<char> packet) override;
         std::vector<char> obtain(int size) override;
 
     private:
         Connection id;
-        struct sockaddr addr;
+        struct sockaddr_in addr;
         IpAddress ip_addr;
         IpProtocol ip_proto;
         bool main;

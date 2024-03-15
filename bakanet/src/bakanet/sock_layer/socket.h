@@ -18,18 +18,17 @@ namespace Bk::Net {
 		virtual std::unique_ptr<Socket> ack() = 0;
 		virtual bool conn() = 0;
 
+
 		virtual int get_raw_socket() = 0;
+		virtual const std::string get_ip() = 0;
 
 		virtual void emit(std::vector<char> packet) = 0;
-		virtual void emit(Connection socket, std::vector<char> packet) = 0;
 		virtual std::vector<char> obtain(int size) = 0;
-		virtual std::vector<char> obtain(Connection conn, int size) = 0;
 		
 		template<typename T>
 		static bool set_option(Socket& socket, int level, int option_name, const T* option_value) { return setsockopt(socket.get_raw_socket(), level, option_name, (void*)option_value, sizeof(T)) == 0 ? true : false; }
 
 		static std::unique_ptr<Socket> create(IpAddress ip, int port, IpProtocol proto);
-	private:
 		static std::unique_ptr<Socket> create(int id, IpVersion ver, IpProtocol proto);
 	};
 }

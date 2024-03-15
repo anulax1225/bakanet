@@ -7,12 +7,11 @@ namespace Bk::Net {
 	WindowsSocket::WindowsSocket(int id, IpVersion ver, IpProtocol proto)
 	: id(id), ip_proto(proto), main(false)
 	{
-		char myIP[16];
-		struct sockaddr sock_addr;
-    	getsockname(id, (struct sockaddr*)&addr, sizeof(addr));
-		inet_ntop((int)ver, &addr.sin_addr, myIP, sizeof(myIP));
+		char myIP[16] = "               ";
+		socklen_t len = sizeof(addr);
+    	getsockname(id, (struct sockaddr*)&addr, &len);
+		inet_ntop((int)ver, &addr, myIP, sizeof(myIP));
 		ip_addr = IpAddress(std::string(myIP, 16), ver);
-		addr = sock_addr;
 	}
 
 	WindowsSocket::WindowsSocket(IpAddress ip, int port, IpProtocol proto)
@@ -38,10 +37,9 @@ namespace Bk::Net {
 			log("socket failed " << WSAGetLastError());
 			exit(EXIT_FAILURE);
 		}
-		struct sockaddr_in in_addr;
-		in_addr.sin_addr = ip_addr.get_data();
-		in_addr.sin_family = (int)ip_addr.version;
-		in_addr.sin_port = htons(port);
+		addr.sin_addr = ip_addr.get_data();
+		addr.sin_family = (int)ip_addr.version;
+		addr.sin_port = htons(port);
 	}
 
 	WindowsSocket::~WindowsSocket()
@@ -69,10 +67,10 @@ namespace Bk::Net {
 		return true;
 	}
 
-	Connection WindowsSocket::ack()
+	std::unique_ptr<Socket> WindowsSocket::ack()
 	{
 		socklen_t addrlen = sizeof(addr);
-		return accept(id, (struct sockaddr*)&addr, &addrlen);
+		return Socket::create(accept(id, (struct sockaddr*)&addr, &addrlen), ip_addr.version, ip_proto);
 	}
 
 	bool WindowsSocket::conn()
@@ -102,6 +100,6 @@ namespace Bk::Net {
 
 	std::unique_ptr<Socket> Socket::create(int id, IpVersion ver, IpProtocol proto)
 	{
-		return std::unique_ptr<Socket>(new WindowsSocket(int id, IpVersion ver, IpProtocol proto));
+		return std::unique_ptr<Socket>(new WindowsSocket(id, ver, proto));
 	}
 }
