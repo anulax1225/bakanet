@@ -16,6 +16,7 @@ namespace Bk::Net {
                 {
                     log("Caca")
                     route_request(conn, recv_request(conn));
+                    log("Pipi")
                 }, std::ref(*conn)));
         } 
     }
@@ -24,6 +25,7 @@ namespace Bk::Net {
     {
         Packet req;
         bool reading = true;
+        log("Proute")
         while(reading)
         {
             auto data = conn.obtain(1024);
@@ -32,6 +34,7 @@ namespace Bk::Net {
             req.append_data(data);
             reading = data.size() >= 1024;
         }
+        log("Cul")
         int req_size = req.size();
         if (req_size) return HttpRequest(std::string(req.pull<char>(req_size).release(), req_size));
         return HttpRequest("", "", "");

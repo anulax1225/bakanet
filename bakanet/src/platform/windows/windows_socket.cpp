@@ -86,9 +86,12 @@ namespace Bk::Net {
 
 	std::vector<char> WindowsSocket::obtain(int size)
 	{
+		log(1)
 		std::vector<char> buffer;
 		buffer.resize(size);
+		log(2)
 		int read_size = recv((SOCKET)id, buffer.data(), buffer.size() - 1, 0);
+		log(3)
 		buffer.resize(read_size);
 		return buffer;
 	}
