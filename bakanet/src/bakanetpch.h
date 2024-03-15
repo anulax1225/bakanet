@@ -11,6 +11,7 @@
 #include <string>
 #include <unordered_map>
 #include <functional>
+#include <thread>
 
 #define log(str) std::cout << str << "\n";
 #define input(ref) std::cin >> ref;
