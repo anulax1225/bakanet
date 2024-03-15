@@ -1,7 +1,7 @@
 workspace "BakaraNet"
    	architecture "x64"
     configurations { "Debug", "Release" }
-    startproject "bakanet"
+    startproject "server"
     flags
 	{
 		"MultiProcessorCompile"
