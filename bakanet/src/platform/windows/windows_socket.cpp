@@ -52,7 +52,7 @@ namespace Bk::Net {
 	{
 		//Binding step
 		int status;
-		if ((status = bind(id, (struct sockaddr*)&addr, sizeof(addr)) < 0))
+		if ((status = bind((SOCKET)id, (struct sockaddr*)&addr, sizeof(addr)) < 0))
 		{
 			log("bind failed " << WSAGetLastError());
 			return false;
@@ -70,7 +70,7 @@ namespace Bk::Net {
 	std::unique_ptr<Socket> WindowsSocket::ack()
 	{
 		socklen_t addrlen = sizeof(addr);
-		return Socket::create(accept(id, (struct sockaddr*)&addr, &addrlen), ip_addr.version, ip_proto);
+		return Socket::create(accept((SOCKET)id, (struct sockaddr*)&addr, &addrlen), ip_addr.version, ip_proto);
 	}
 
 	bool WindowsSocket::conn()
