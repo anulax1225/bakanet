@@ -23,19 +23,38 @@ project "server"
 
     links
     {
-        "bakanet"
+        "bakanet",
+        "bakatools"
     }
 
     filter "system:linux"
         defines
         {
-            "BK_PLAFORM_LINUX"
+            "BK_PLATFORM_LINUX"
         }
 
     filter "system:windows"
         defines
         {
-            "BK_PLAFORM_WINDOWS"
+            "BK_PLATFORM_WINDOWS"
         }
+
+    filter "configurations:Debug"
+        defines 
+        { 
+            "BK_DEBUG",
+            "DEBUG"
+        }
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        defines 
+        { 
+            "BK_RELEASE",
+            "NDEBUG"
+        }
+        runtime "Release"
+        optimize "on"
 
 

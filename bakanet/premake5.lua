@@ -29,7 +29,7 @@ project "bakanet"
     filter "system:windows"
         defines
         {
-            "BK_PLAFORM_WINDOWS"
+            "BK_PLATFORM_WINDOWS"
         }
 
         files
@@ -46,7 +46,7 @@ project "bakanet"
     filter "system:linux"
         defines
         {
-            "BK_PLAFORM_LINUX"
+            "BK_PLATFORM_LINUX"
         }
 
         files
