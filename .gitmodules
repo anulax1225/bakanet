@@ -1,3 +1,6 @@
 [submodule "vendor/spdlog"]
 	path = vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "vendor/bakatools"]
+	path = vendor/bakatools
+	url = https://github.com/anulax1225/bakatools
