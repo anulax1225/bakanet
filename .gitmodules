@@ -1,0 +1,3 @@
+[submodule "vendor/bakatools"]
+	path = vendor/bakatools
+	url = https://github.com/anulax1225/bakatools
