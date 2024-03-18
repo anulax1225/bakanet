@@ -4,9 +4,9 @@
 #include <bakanet/core/packet.h>
 #include <bakanet/core/socket.h>
 
-#ifdef BK_PLAFORM_WINDOWS
+#if defined(BK_PLATFORM_WINDOWS)
     #include <platform/windows/windows_socket.h>
-#elif BK_PLAFORM_LINUX
+#elif defined(BK_PLATFORM_LINUX)
     #include <platform/linux/linux_socket.h>
 #else
     #error "Plaform not supported"

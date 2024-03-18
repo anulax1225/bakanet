@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bakanetpch.h>
+#include <bakatools.h>
 #include <bakanet/core/ip_address.h>
 #include <bakanet/core/packet.h>
 #include <bakanet/core/socket.h>

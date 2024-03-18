@@ -12,15 +12,12 @@
 #include <functional>
 #include <thread>
 
-#define log(str) std::cout << str << "\n";
-#define input(ref) std::cin >> ref;
-
-#ifdef BK_PLAFORM_WINDOWS
+#if defined(BK_PLATFORM_WINDOWS)
     #include <Ws2tcpip.h>
     #include <WinSock2.h>
     #include <tchar.h>
     #pragma comment(lib,"WS2_32.lib")
-#elif BK_PLAFORM_LINUX
+#elif defined(BK_PLATFORM_LINUX)
     #include <netinet/in.h>
     #include <stdlib.h>
     #include <sys/socket.h>
