@@ -1,8 +1,13 @@
 
 
 handle_error() {
+    if [ $1 -gt 18 ]; then
+        echo
+    else
+        rm -rf bin bin-int
+
+    fi
     echo "An error occurred on line $1"
-    rm -rf bin bin-int
     exit 1
 }
 trap 'handle_error $LINENO' ERR
