@@ -9,6 +9,7 @@ project "bakanet"
 
     includedirs 
     {
+        "%{IncludeDirs.spdlog}",
         "%{IncludeDirs.bakanet}",
         "%{IncludeDirs.bakatools}"
     }
@@ -17,7 +18,6 @@ project "bakanet"
     {
         "%{prj.location}/src/bakanet/**.h",
         "%{prj.location}/src/bakanet/**.cpp",
-        "%{prj.location}/src/bakanet.h",
         "%{prj.location}/src/baknetpch.h",
     }
 
@@ -54,3 +54,22 @@ project "bakanet"
             "%{prj.location}/src/platform/linux/**.h",
             "%{prj.location}/src/platform/linux/**.cpp",
         }
+    
+    filter "configurations:Debug"
+        defines 
+        { 
+            "BK_DEBUG",
+            "DEBUG"
+        }
+        runtime "Debug"
+        symbols "on"
+
+
+    filter "configurations:Release"
+        defines 
+        { 
+            "BK_RELEASE",
+            "NDEBUG"
+        }
+        runtime "Release"
+        optimize "on"

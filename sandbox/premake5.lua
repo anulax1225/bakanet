@@ -10,14 +10,15 @@ project "server"
 
     includedirs 
     {
+        "%{IncludeDirs.spdlog}",
         "%{IncludeDirs.bakanet}",
+        "%{IncludeDirs.bakatools}"
     }
 
     files 
     {
         "%{prj.location}/**.h",
         "%{prj.location}/**.cpp",
-        "./commun.h"
     }
 
     links
