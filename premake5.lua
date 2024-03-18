@@ -11,9 +11,14 @@ outputdir = "%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}"
 
 IncludeDirs = {}
 IncludeDirs["bakanet"] = "%{wks.location}/bakanet/src/"
+IncludeDirs["bakatools"] = "%{wks.location}/vendor/bakatools/src/"
 
 group "NetCore"
 	include "bakanet"
+group ""
+
+group "BakaModules"
+	include "vendor/bakatools"
 group ""
 
 group "Sandbox"

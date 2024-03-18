@@ -9,7 +9,8 @@ project "bakanet"
 
     includedirs 
     {
-        "%{IncludeDirs.bakanet}"
+        "%{IncludeDirs.bakanet}",
+        "%{IncludeDirs.bakatools}"
     }
 
     files 
@@ -18,6 +19,11 @@ project "bakanet"
         "%{prj.location}/src/bakanet/**.cpp",
         "%{prj.location}/src/bakanet.h",
         "%{prj.location}/src/baknetpch.h",
+    }
+
+    links 
+    {
+        "bakatools"
     }
 
     filter "system:windows"

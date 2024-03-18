@@ -1,7 +1,7 @@
 #pragma once
 
 #include <bakanetpch.h>
-#include <bakanet/tools/string_tools.h>
+#include <bakatools.h>
 
 #define HTTP_RES_200 "200 OK"
 
