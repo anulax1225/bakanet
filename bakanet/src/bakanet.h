@@ -1,8 +1,8 @@
 #pragma once 
 
-#include <bakanet/sock_layer/ip_address.h>
-#include <bakanet/sock_layer/packet.h>
-#include <bakanet/sock_layer/socket.h>
+#include <bakanet/core/ip_address.h>
+#include <bakanet/core/packet.h>
+#include <bakanet/core/socket.h>
 
 #ifdef BK_PLAFORM_WINDOWS
     #include <platform/windows/windows_socket.h>
@@ -12,5 +12,5 @@
     #error "Plaform not supported"
 #endif
 
-#include <bakanet/sock_layer/dns_lookup.h>
+#include <bakanet/core/dns_lookup.h>
 #include <bakanet/http/http_server.h>
