@@ -10,7 +10,7 @@ namespace Bk::Net {
         bool running = socket->init() && socket->start(5);
         while (running)
         {
-            auto conn = socket->ack();
+            std::unique_ptr<Socket> conn = socket->ack();
             threads.push_back(std::thread([this](std::unique_ptr<Socket> conn) 
             {
                 route_request(*conn, recv_request(*conn));
@@ -25,7 +25,6 @@ namespace Bk::Net {
         while(reading)
         {
             auto data = conn.obtain(1024);
-            int size = data.size();
             req.append_data(data);
             reading = data.size() >= 1024;
         }
