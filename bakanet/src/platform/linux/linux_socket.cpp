@@ -17,7 +17,7 @@ namespace Bk::Net {
 		//LinuxSocket creation step
 		if ((id = socket((int)ip_addr.version, (int)ip_proto, 0)) < 0) 
 		{
-	        perror("socket failed");
+	        BK_CORE_TRACE("Socket failed : {0}", strerror(errno));
 	        exit(EXIT_FAILURE);
 	    }
 	    addr.sin_addr = ip_addr.get_data();
@@ -36,7 +36,7 @@ namespace Bk::Net {
 		int status;
 	    if ((status = bind(id, (struct sockaddr*)&addr, sizeof(addr)) < 0)) 
 	    {
-			perror("bind failed");
+			BK_CORE_TRACE("Binding failed : {0}", strerror(errno));
 	      	return false;
 	    }
 	    return true;
@@ -47,6 +47,7 @@ namespace Bk::Net {
 	    //Listening step
 	    if (listen(id, cpt_conn) < 0) 
 	    {
+			BK_CORE_TRACE("Listening failed : {0}", strerror(errno));
 	    	return false;
 	    }
 	    return true;
@@ -54,7 +55,6 @@ namespace Bk::Net {
 
 	std::unique_ptr<Socket> LinuxSocket::ack()
 	{
-		
 		socklen_t addrlen = sizeof(addr);
 		return std::unique_ptr<Socket>(Socket::create(accept(id, (struct sockaddr*)&addr, &addrlen), ip_addr.version, ip_proto));
 	}
@@ -63,6 +63,7 @@ namespace Bk::Net {
 	{
 		if (connect(id, (struct sockaddr*)&addr, sizeof(addr)) < 0) 
 		{
+			BK_CORE_TRACE("Connection failed : {0}", strerror(errno));
 	        return false;
     	}
     	return true;

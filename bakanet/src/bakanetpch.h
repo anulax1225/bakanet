@@ -18,6 +18,7 @@
     #include <tchar.h>
     #pragma comment(lib,"WS2_32.lib")
 #elif defined(BK_PLATFORM_LINUX)
+    #include <stdio.h>
     #include <netinet/in.h>
     #include <stdlib.h>
     #include <sys/socket.h>

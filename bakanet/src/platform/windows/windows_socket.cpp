@@ -24,7 +24,7 @@ namespace Bk::Net {
 			err = WSAStartup(MAKEWORD(2, 2), &wsa_data);
 			if (err != 0) 
 			{
-				log("WSA failed " << WSAGetLastError());
+				BK_CORE_TRACE("WSA failed : {0}", WSAGetLastError());
 				WSACleanup();
 				exit(EXIT_FAILURE);
 			}
@@ -33,7 +33,7 @@ namespace Bk::Net {
 		//WindowsSocket creation step
 		if ((id = (int)socket((int)ip_addr.version, (int)ip_proto, 0)) < 0)
 		{
-			log("socket failed " << WSAGetLastError());
+			BK_CORE_TRACE("Socket failed : {0}", WSAGetLastError());
 			exit(EXIT_FAILURE);
 		}
 		addr.sin_addr = ip_addr.get_data();
@@ -53,7 +53,7 @@ namespace Bk::Net {
 		int status;
 		if ((status = bind((SOCKET)id, (struct sockaddr*)&addr, sizeof(addr)) < 0))
 		{
-			log("bind failed " << WSAGetLastError());
+			BK_CORE_TRACE("Binding failed : {0}", WSAGetLastError());
 			return false;
 		}
 		return true;
@@ -62,7 +62,7 @@ namespace Bk::Net {
 	bool WindowsSocket::start(int cpt_conn = SOMAXCONN)
 	{
 		//Listening step
-		if (listen(id, cpt_conn) == SOCKET_ERROR) { return false; }
+		if (listen(id, cpt_conn) == SOCKET_ERROR) { BK_CORE_TRACE("Listening failed : {0}", WSAGetLastError()); return false; }
 		return true;
 	}
 

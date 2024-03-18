@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bakatools.h>
 #include <bakanet/core/socket.h>
 
 namespace Bk::Net {
