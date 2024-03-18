@@ -3,6 +3,7 @@
 #include <bakanetpch.h>
 #include "ip_address.h"
 #include "ip_protocol.h"
+#include "socket_options.h"
 
 namespace Bk::Net {
 
@@ -26,7 +27,7 @@ namespace Bk::Net {
 			virtual std::vector<char> obtain(int size) = 0;
 			
 			template<typename T>
-			static bool set_option(Socket& socket, int level, int option_name, const T* option_value) { return setsockopt(socket.get_raw_socket(), level, option_name, (void*)option_value, sizeof(T)) == 0 ? true : false; }
+			static bool set_option(Socket& socket, OptionLayer level, SocketOption option_name, const T* option_value) { return setsockopt(socket.get_raw_socket(), (int)level, (int)option_name, (void*)option_value, sizeof(T)) == 0 ? true : false; }
 
 			static std::unique_ptr<Socket> create(IpAddress ip, int port, IpProtocol proto);
 		protected:	
