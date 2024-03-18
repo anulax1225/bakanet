@@ -2,6 +2,8 @@
 namespace Bk::Net {
     HttpServer::HttpServer(IpAddress ip, int port) 
     {
+        Bk::Log::init("BAKANET");
+        BK_CORE_INFO("NEW SERVER");
         socket = Socket::create(ip, port, IpProtocol::TCP);
     }
 
@@ -21,13 +23,8 @@ namespace Bk::Net {
     HttpRequest HttpServer::recv_request(Socket& conn)
     {
         Packet req;
-        bool reading = true;
-        while(reading)
-        {
-            auto data = conn.obtain(1024);
-            req.append_data(data);
-            reading = data.size() >= 1024;
-        }
+        std::vector<char> data;
+        while((data = conn.obtain(1024)).size() >= 1024) req.append_data(data);
         int req_size = req.size();
         if (req_size) return HttpRequest(std::string(req.pull<char>(req_size).release(), req_size));
         return HttpRequest("", "", "");
