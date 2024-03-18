@@ -1,11 +1,21 @@
 #include "linux_socket.h"
 
 namespace Bk::Net {
+	LinuxSocket::LinuxSocket(int id, IpVersion ver, IpProtocol proto)
+	: id(id), ip_proto(proto)
+	{
+		char myIP[16] = "               ";
+		socklen_t len = sizeof(addr);
+    	getsockname(id, (struct sockaddr*)&addr, &len);
+		inet_ntop((int)ver, &addr, myIP, sizeof(myIP));
+		ip_addr = IpAddress(std::string(myIP, 16), ver);
+	}
+
 	LinuxSocket::LinuxSocket(IpAddress ip, int port, IpProtocol proto)
 	: ip_addr(ip), ip_proto(proto)
 	{
 		//LinuxSocket creation step
-		if ((socket_id = socket((int)ip_addr.version, (int)ip_proto, 0)) < 0) 
+		if ((id = socket((int)ip_addr.version, (int)ip_proto, 0)) < 0) 
 		{
 	        perror("socket failed");
 	        exit(EXIT_FAILURE);
@@ -17,14 +27,14 @@ namespace Bk::Net {
 
 	LinuxSocket::~LinuxSocket()
 	{
-		close(socket_id);
+		close(id);
 	}
 
 	bool LinuxSocket::init()
 	{
 	    //Binding step
 		int status;
-	    if ((status = bind(socket_id, (struct sockaddr*)&addr, sizeof(addr)) < 0)) 
+	    if ((status = bind(id, (struct sockaddr*)&addr, sizeof(addr)) < 0)) 
 	    {
 			perror("bind failed");
 	      	return false;
@@ -35,23 +45,23 @@ namespace Bk::Net {
 	bool LinuxSocket::start(int cpt_conn)
 	{
 	    //Listening step
-	    if (listen(socket_id, cpt_conn) < 0) 
+	    if (listen(id, cpt_conn) < 0) 
 	    {
 	    	return false;
 	    }
 	    return true;
 	}
 
-	Connection LinuxSocket::ack()
+	std::unique_ptr<Socket> LinuxSocket::ack()
 	{
 		
 		socklen_t addrlen = sizeof(addr);
-		return accept(socket_id, (struct sockaddr*)&addr, &addrlen);
+		return std::unique_ptr<Socket>(Socket::create(accept(id, (struct sockaddr*)&addr, &addrlen), ip_addr.version, ip_proto));
 	}
 
 	bool LinuxSocket::conn()
 	{
-		if (connect(socket_id, (struct sockaddr*)&addr, sizeof(addr)) < 0) 
+		if (connect(id, (struct sockaddr*)&addr, sizeof(addr)) < 0) 
 		{
 	        return false;
     	}
@@ -60,14 +70,14 @@ namespace Bk::Net {
 
 	void LinuxSocket::emit(std::vector<char> packet)
 	{
-		write(socket_id, packet.data(), packet.size());
+		write(id, packet.data(), packet.size());
 	}
 
 	std::vector<char> LinuxSocket::obtain(int size)
 	{
 		std::vector<char> buffer;
 		buffer.resize(size);
-		int read_size = read(socket_id, buffer.data(), buffer.size() - 1);
+		int read_size = read(id, buffer.data(), buffer.size() - 1);
 		buffer.resize(read_size);
 		return buffer;
 	}
@@ -75,5 +85,10 @@ namespace Bk::Net {
 	std::unique_ptr<Socket> Socket::create(IpAddress ip, int port, IpProtocol proto)
 	{
 		return std::unique_ptr<Socket>(new LinuxSocket(ip, port, proto));
+	}
+
+	std::unique_ptr<Socket> Socket::create(int id, IpVersion ver, IpProtocol proto)
+	{
+		return std::unique_ptr<Socket>(new LinuxSocket(id, ver, proto));
 	}
 }

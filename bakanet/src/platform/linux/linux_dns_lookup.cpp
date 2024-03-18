@@ -1,4 +1,4 @@
-#include <bakanet/sock_layer/dns_lookup.h>
+#include <bakanet/core/dns_lookup.h>
 
 namespace Bk::Net {
 	std::vector<std::string> dns_lookup(const std::string &host_name, IpVersion ipv)
