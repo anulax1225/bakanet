@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <functional>
 #include <thread>
+#include <iterator>
 
 #if defined(BK_PLATFORM_WINDOWS)
     #include <Ws2tcpip.h>
