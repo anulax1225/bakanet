@@ -10,16 +10,18 @@
 namespace Bk::Net {
     class HttpServer 
     {
-        using ThreadPool = std::vector<std::thread>;
         using RequestHandler = std::function<HttpReponse(HttpRequest& req)>;
+        using HttpMethodArray = std::unordered_map<std::string, RequestHandler>;
+        using RadixTree = DataType::Trie<std::string, HttpMethodArray>;
+        using ThreadPool = std::vector<std::thread>;
         public:
             HttpServer(IpAddress ip, int port);
             ~HttpServer() = default;
             void start();
-            void get(std::string url, RequestHandler req_handler) { req_mapper.insert({ url, req_handler }); }
+            void get(std::string url, RequestHandler req_handler);
+            RadixTree radix;
         private:
             std::unique_ptr<Socket> socket;
-            std::unordered_map<std::string, RequestHandler> req_mapper;
             ThreadPool threads;
 
             HttpRequest recv_request(Socket& conn);
