@@ -1,3 +1,4 @@
+#include <bakatools.h>
 #include <bakanet.h>
 
 #define PORT 8000
@@ -8,20 +9,21 @@ int main()
 {
     IpAddress ip;
     HttpServer server(ip, PORT);
-    server.get("/", [](HttpRequest req) 
+    server.get("/", [](HttpRequest& req)
     {
-        HttpReponse res(HTTP_RES_200, req.version);
-        res.body = "<p>Hello World! " + req.url + "</p>";
-        return res;
+        BK_INFO("URL /");
+        return HttpReponse("", "");
     });
-
-    server.get("/home/", [](HttpRequest req) 
+    server.get("/home/", [](HttpRequest& req)
     {
-        HttpReponse res(HTTP_RES_200, req.version);
-        res.body = "<p>Hello World! " + req.url + "</p>";
-        return res;
+        BK_INFO("URL /home");
+        return HttpReponse("", "");
     });
-
+    server.get("/home", [](HttpRequest& req)
+    {
+        BK_INFO("URL NEW /home");
+        return HttpReponse("", "");
+    });
     server.start();
     return 0;
 }
