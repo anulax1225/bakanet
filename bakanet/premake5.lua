@@ -1,12 +1,17 @@
 project "bakanet"
 	kind "StaticLib"
     language "C++"
-    cppdialect "C++17"
+    cppdialect "C++20"
     systemversion "latest"
     staticruntime "on"
 
     targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
+
+    defines
+    {
+        "BKMOD_ALL"
+    }
 
     includedirs 
     {
