@@ -2,7 +2,6 @@
 namespace Bk::Net {
     HttpServer::HttpServer(IpAddress ip, int port) 
     {
-        Bk::Log::init("BAKANET");
         BK_CORE_INFO("NEW SERVER");
         socket = Socket::create(ip, port, IpProtocol::TCP);
         radix = RadixTree();
@@ -32,7 +31,7 @@ namespace Bk::Net {
 
     HttpRequest HttpServer::recv_request(Socket& conn)
     {
-        Packet req;
+        Type::DataStream req;
         std::vector<char> data;
         do
         {
@@ -46,7 +45,7 @@ namespace Bk::Net {
 
     void HttpServer::send_reponse(Socket& conn, HttpReponse res)
     {
-        Packet res_packet;
+        Type::DataStream res_packet;
         std::string str_res = res.to_string();
         res_packet.push<char>(str_res.c_str(), str_res.length());
         conn.emit(res_packet.payload);

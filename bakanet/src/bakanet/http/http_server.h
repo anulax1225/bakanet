@@ -1,19 +1,18 @@
 #pragma once
 
 #include <bakanetpch.h>
-#include <bakatools.h>
 #include <bakanet/core/ip_address.h>
-#include <bakanet/core/packet.h>
 #include <bakanet/core/socket.h>
 #include "http_packet.h"
 
 namespace Bk::Net {
+    using RequestHandler = std::function<HttpReponse(HttpRequest& req)>;
+    using HttpMethodArray = std::unordered_map<std::string, RequestHandler>;
+    using RadixTree = Type::Trie<std::string, HttpMethodArray>;
+    using ThreadPool = std::vector<std::thread>;
+    
     class HttpServer 
     {
-        using RequestHandler = std::function<HttpReponse(HttpRequest& req)>;
-        using HttpMethodArray = std::unordered_map<std::string, RequestHandler>;
-        using RadixTree = DataType::Trie<std::string, HttpMethodArray>;
-        using ThreadPool = std::vector<std::thread>;
         public:
             HttpServer(IpAddress ip, int port);
             ~HttpServer() = default;
