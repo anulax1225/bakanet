@@ -33,6 +33,7 @@ project "bakanet"
     }
 
     filter "system:windows"
+		buildoptions "/MDd"
         defines
         {
             "BK_PLATFORM_WINDOWS"
