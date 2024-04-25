@@ -12,6 +12,7 @@
 #include <functional>
 #include <thread>
 #include <iterator>
+#include <bakatools.h>
 
 #if defined(BK_PLATFORM_WINDOWS)
     #include <Ws2tcpip.h>

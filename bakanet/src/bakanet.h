@@ -1,7 +1,6 @@
 #pragma once 
 
 #include <bakanet/core/ip_address.h>
-#include <bakanet/core/packet.h>
 #include <bakanet/core/socket.h>
 
 #if defined(BK_PLATFORM_WINDOWS)
