@@ -12,7 +12,9 @@ int main()
     server.get("/", [](HttpRequest& req)
     {
         BK_INFO("URL /");
-        return HttpReponse("", "");
+        HttpReponse res(HTTP_RES_200, req.version);
+        res.body = "<p>Coucou de /</p>";
+        return res;
     });
     server.get("/home/", [](HttpRequest& req)
     {
