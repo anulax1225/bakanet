@@ -18,10 +18,14 @@ namespace Bk::Net {
             ~HttpServer() = default;
             void start();
             void get(std::string url, RequestHandler req_handler);
-            RadixTree radix;
+            void post(std::string url, RequestHandler req_handler);
+            void del(std::string url, RequestHandler req_handler);
+            void put(std::string url, RequestHandler req_handler);
+
         private:
             std::unique_ptr<Socket> socket;
             ThreadPool threads;
+            RadixTree radix;
 
             HttpRequest recv_request(Socket& conn);
             void send_reponse(Socket& conn, HttpReponse res);

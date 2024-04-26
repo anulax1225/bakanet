@@ -29,6 +29,33 @@ namespace Bk::Net {
         else radix.add_nodes(splits->data(), splits->size(), HttpMethodArray({{ "GET", req_handler }}));
     }
 
+    void HttpServer::post(std::string url, RequestHandler req_handler)
+    {
+        RadixTree* tree;
+        Tools::string_trim(url, " /");
+        auto splits = Tools::string_split(url, "/");
+        if (tree = radix.get_node(splits->data(), splits->size())) tree->value["POST"] = req_handler;
+        else radix.add_nodes(splits->data(), splits->size(), HttpMethodArray({{ "POST", req_handler }}));
+    }
+
+    void HttpServer::del(std::string url, RequestHandler req_handler)
+    {
+        RadixTree* tree;
+        Tools::string_trim(url, " /");
+        auto splits = Tools::string_split(url, "/");
+        if (tree = radix.get_node(splits->data(), splits->size())) tree->value["DELETE"] = req_handler;
+        else radix.add_nodes(splits->data(), splits->size(), HttpMethodArray({{ "DELETE", req_handler }}));
+    }
+
+    void HttpServer::put(std::string url, RequestHandler req_handler)
+    {
+        RadixTree* tree;
+        Tools::string_trim(url, " /");
+        auto splits = Tools::string_split(url, "/");
+        if (tree = radix.get_node(splits->data(), splits->size())) tree->value["PUT"] = req_handler;
+        else radix.add_nodes(splits->data(), splits->size(), HttpMethodArray({{ "PUT", req_handler }}));
+    }
+
     HttpRequest HttpServer::recv_request(Socket& conn)
     {
         Type::DataStream req;
