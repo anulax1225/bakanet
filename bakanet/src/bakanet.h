@@ -12,4 +12,4 @@
 #endif
 
 #include <bakanet/core/dns_lookup.h>
-#include <bakanet/http/http_server.h>
+#include <bakanet/http/server.h>
