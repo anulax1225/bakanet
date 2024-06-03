@@ -1,0 +1,9 @@
+includedirs 
+{
+    "%{IncludeDirs.bakanet}"
+}
+
+links
+{
+    "bakanet"
+}

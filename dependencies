@@ -1,0 +1,5 @@
+IncludeDirs["bakanet"] = "%{wks.location}/vendor/bakanet/src/"
+
+group "Bakanet"
+    include "vendor/bakanet"
+group ""

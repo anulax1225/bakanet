@@ -1,27 +1,82 @@
-workspace "BakaraNet"
-   	architecture "x64"
-    configurations { "Debug", "Release" }
-    startproject "server"
-    flags
-	{
-		"MultiProcessorCompile"
-	}
+project "bakanet"
+	kind "StaticLib"
+    language "C++"
+    cppdialect "C++20"
+    systemversion "latest"
+    staticruntime "on"
 
-outputdir = "%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}"
+    targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
-IncludeDirs = {}
-IncludeDirs["bakanet"] = "%{wks.location}/bakanet/src/"
-IncludeDirs["bakatools"] = "%{wks.location}/vendor/bakatools/src/"
-IncludeDirs["spdlog"] = "%{wks.location}/vendor/spdlog/include"
+    defines
+    {
+        "BKMOD_ALL"
+    }
 
-group "BakaModules"
-	include "vendor/bakatools"
-group ""
+    includedirs 
+    {
+        "%{IncludeDirs.spdlog}",
+        "%{IncludeDirs.bakanet}",
+        "%{IncludeDirs.bakatools}"
+    }
 
-group "NetCore"
-	include "bakanet"
-group ""
+    files 
+    {
+        "%{prj.location}/src/bakanet/**.h",
+        "%{prj.location}/src/bakanet/**.cpp",
+        "%{prj.location}/src/baknetpch.h",
+    }
 
-group "Sandbox"
-	include "sandbox"
-group ""
+    links 
+    {
+        "bakatools"
+    }
+
+    filter "system:windows"
+		buildoptions "/MDd"
+        defines
+        {
+            "BK_PLATFORM_WINDOWS"
+        }
+
+        files
+        {
+            "%{prj.location}/src/platform/windows/**.h",
+            "%{prj.location}/src/platform/windows/**.cpp",
+        }
+
+        links
+        {
+            "WS2_32.lib"
+        }
+    
+    filter "system:linux"
+        defines
+        {
+            "BK_PLATFORM_LINUX"
+        }
+
+        files
+        {
+            "%{prj.location}/src/platform/linux/**.h",
+            "%{prj.location}/src/platform/linux/**.cpp",
+        }
+    
+    filter "configurations:Debug"
+        defines 
+        { 
+            "BK_DEBUG",
+            "DEBUG"
+        }
+        runtime "Debug"
+        symbols "on"
+
+
+    filter "configurations:Release"
+        defines 
+        { 
+            "BK_RELEASE",
+            "NDEBUG"
+        }
+        runtime "Release"
+        optimize "on"

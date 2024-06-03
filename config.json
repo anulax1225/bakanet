@@ -1,0 +1,12 @@
+{
+    "name": "Bakanet",
+    "owner": "Anulax",
+    "git": "https://github.com/anulax1225/bakanet",
+    "packages": 
+    [
+        {
+            "author": "anulax1225",
+            "name": "bakatools"
+        }
+    ]
+}
