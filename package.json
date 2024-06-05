@@ -8,7 +8,7 @@
     ],
     "includes":
     [
-        "IncludeDirs.bakanet"
+        "bakanet"
     ],
     "packages": 
     [
