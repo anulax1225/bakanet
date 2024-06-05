@@ -2,10 +2,13 @@
     "name": "Bakanet",
     "owner": "Anulax",
     "git": "https://github.com/anulax1225/bakanet",
-    "link": "bakanet",
+    "links": 
+    [
+        "bakanet"
+    ],
     "includes":
     [
-        "%{IncludeDirs.bakanet}"
+        "IncludeDirs.bakanet"
     ],
     "packages": 
     [
