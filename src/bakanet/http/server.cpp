@@ -2,7 +2,6 @@
 namespace Bk::Net {
     HttpServer::HttpServer(IpAddress ip, int port) 
     {
-        BK_CORE_INFO("NEW SERVER");
         socket = Socket::create(ip, port, IpProtocol::TCP);
         radix = RadixTree();
     }

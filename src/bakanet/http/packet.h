@@ -15,6 +15,8 @@
 #define HTTP_RES_406 "406 Not Acceptable"
 #define HTTP_RES_408 "408 Request Timeout"
 
+#define HTTPv1_1 "HTTP/1.1"
+
 namespace Bk::Net {
     using HttpParams = std::unordered_map<std::string, std::string>;
 

@@ -8,11 +8,6 @@ project "bakanet"
     targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
-    defines
-    {
-        "BKMOD_ALL"
-    }
-
     includedirs 
     {
         "%{IncludeDirs.spdlog}",
