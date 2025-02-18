@@ -66,7 +66,7 @@ namespace Bk::Net {
 		return true;
 	}
 
-	std::unique_ptr<Socket> WindowsSocket::ack()
+	Socket* WindowsSocket::ack()
 	{
 		socklen_t addrlen = sizeof(addr);
 		return Socket::create(accept((SOCKET)id, (struct sockaddr*)&addr, &addrlen), ip_addr.version, ip_proto);
@@ -77,6 +77,14 @@ namespace Bk::Net {
 		if (connect(id, (struct sockaddr*)&addr, sizeof(addr)) < 0) { return false; }
 		return true;
 	}
+
+	bool WindowsSocket::hasConnection(int seconds, int microseconds) {
+		struct timeval tv = { seconds, microseconds };
+		fd_set rfds;
+		FD_ZERO(&rfds);
+		FD_SET(id, &rfds);
+		return select(id + 1, &rfds, (fd_set*)0, (fd_set*)0, &tv) > 0;
+	};
 
 	void WindowsSocket::emit(std::vector<char> packet)
 	{
@@ -92,13 +100,13 @@ namespace Bk::Net {
 		return buffer;
 	}
 
-	std::unique_ptr<Socket> Socket::create(IpAddress ip, int port, IpProtocol proto)
+	Socket* Socket::create(IpAddress ip, int port, IpProtocol proto)
 	{
-		return std::unique_ptr<Socket>(new WindowsSocket(ip, port, proto));
+		return new WindowsSocket(ip, port, proto);
 	}
 
-	std::unique_ptr<Socket> Socket::create(int id, IpVersion ver, IpProtocol proto)
+	Socket* Socket::create(int id, IpVersion ver, IpProtocol proto)
 	{
-		return std::unique_ptr<Socket>(new WindowsSocket(id, ver, proto));
+		return new WindowsSocket(id, ver, proto);
 	}
 }

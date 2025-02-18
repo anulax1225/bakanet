@@ -1,4 +1,5 @@
 #include "server.h"
+
 namespace Bk::Net {
     HttpServer::HttpServer(IpAddress ip, int port) 
     {
@@ -6,16 +7,23 @@ namespace Bk::Net {
         radix = RadixTree();
     }
 
+    HttpServer::~HttpServer()
+    {
+        delete socket;
+    }
+
     void HttpServer::start()
     {
         bool running = socket->init() && socket->start(5);
         while (running)
         {
-            std::unique_ptr<Socket> conn = socket->ack();
-            threads.push_back(std::thread([this](std::unique_ptr<Socket> conn) 
+            Socket* conn = socket->ack();
+            pool.queue([this, conn]() 
             {
-                route_request(*conn, recv_request(*conn));
-            }, std::move(conn)));
+                route_request(conn, recv_request(conn));
+                delete conn;
+            });
+            pool.stop();
         } 
     }
     
@@ -55,13 +63,13 @@ namespace Bk::Net {
         else radix.add_nodes(splits->data(), splits->size(), HttpMethodArray({{ "PUT", req_handler }}));
     }
 
-    HttpRequest HttpServer::recv_request(Socket& conn)
+    HttpRequest HttpServer::recv_request(Socket* conn)
     {
         Type::DataStream req;
         std::vector<char> data;
         do
         {
-            data = conn.obtain(1024);
+            data = conn->obtain(1024);
             req.append_data(data);
         } while(data.size() >= 1024);
         int req_size = req.size();
@@ -69,15 +77,15 @@ namespace Bk::Net {
         return HttpRequest("", "", "");
     }
 
-    void HttpServer::send_reponse(Socket& conn, HttpReponse res)
+    void HttpServer::send_reponse(Socket* conn, HttpReponse res)
     {
         Type::DataStream res_packet;
         std::string str_res = res.to_string();
         res_packet.push<char>(str_res.c_str(), str_res.length());
-        conn.emit(res_packet.payload);
+        conn->emit(res_packet.payload);
     }
 
-    void HttpServer::route_request(Socket& conn, HttpRequest req)
+    void HttpServer::route_request(Socket* conn, HttpRequest req)
     {
         std::string url = std::string(req.url);
         Tools::string_trim(url, " /");

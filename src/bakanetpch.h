@@ -15,8 +15,8 @@
 #include <bakatools.h>
 
 #if defined(BK_PLATFORM_WINDOWS)
-    #include <Ws2tcpip.h>
-    #include <WinSock2.h>
+    #include <ws2tcpip.h>
+    #include <winsock2.h>
     #include <tchar.h>
     #pragma comment(lib,"WS2_32.lib")
 #elif defined(BK_PLATFORM_LINUX)

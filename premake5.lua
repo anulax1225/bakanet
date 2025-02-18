@@ -28,7 +28,7 @@ project "bakanet"
     }
 
     filter "system:windows"
-		buildoptions "/MDd"
+		buildoptions { "/MT", "/utf-8" }
         defines
         {
             "BK_PLATFORM_WINDOWS"
